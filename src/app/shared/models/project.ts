@@ -4,5 +4,5 @@ export interface Project {
 id: string;
 name: string;
 description?: string;
-force: Force[];
+forces: Force[];
 }
