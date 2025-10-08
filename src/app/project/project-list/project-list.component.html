@@ -1,0 +1,31 @@
+<section class="project-container">
+  <h2>My Projects</h2>
+
+  <form (ngSubmit)="addProject(); $event.preventDefault()" class="add-form">
+    <input
+      type="text"
+      placeholder="Project name"
+  name="name"
+  [ngModel]="newProjectName()"
+  (ngModelChange)="newProjectName.set($event)"
+    />
+    <input
+      type="text"
+      placeholder="Description"
+  name="description"
+  [ngModel]="newProjectDesc()"
+  (ngModelChange)="newProjectDesc.set($event)"
+    />
+    <button type="submit">Add Project</button>
+  </form>
+
+  <ul>
+    <li *ngFor="let p of projects(); trackBy: trackById" class="project-card">
+      <div>
+        <h3>{{ p.name }}</h3>
+        <p>{{ p.description }}</p>
+      </div>
+      <button (click)="removeProject(p.id)">✖</button>
+    </li>
+  </ul>
+</section>

@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* --- Global Theme --- */
+:root {
+  --black: #0d0d0d;
+  --gunmetal: #2f3438;
+  --accent: #00ffc8; /* neon teal surprise color */
+  --text: #f0f0f0;
+}
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: "Inter", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding: 2rem;
+}
+
