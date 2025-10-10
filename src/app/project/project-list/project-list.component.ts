@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [ CommonModule, FormsModule],
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.css']
 })
@@ -39,8 +39,7 @@ removeProject(id: string) {
   this.projectService.removeProject(id);
 }
 
-  // trackBy function for *ngFor to improve rendering performance
-  trackById(_: number, item: Project) {
+trackById(_: number, item: Project) {
     return item.id;
   }
 

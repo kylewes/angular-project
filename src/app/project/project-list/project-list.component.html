@@ -12,20 +12,30 @@
     <input
       type="text"
       placeholder="Description"
-  name="description"
+    name="description"
   [ngModel]="newProjectDesc()"
   (ngModelChange)="newProjectDesc.set($event)"
     />
-    <button type="submit">Add Project</button>
+    <button type="submit" [disabled]="!newProjectName()">Add Project</button>
   </form>
 
   <ul>
-    <li *ngFor="let p of projects(); trackBy: trackById" class="project-card">
-      <div>
-        <h3>{{ p.name }}</h3>
-        <p>{{ p.description }}</p>
-      </div>
-      <button (click)="removeProject(p.id)">✖</button>
-    </li>
+    @for (p of projects(); track p.id) {
+      <li class="project-card">
+        <div class="project-header">
+          <div>
+            <h3>{{ p.name }}</h3>
+            @if (p.description) {
+              <p>{{ p.description }}</p>
+            }
+          </div>
+          <div class="actions">
+            <button (click)="removeProject(p.id)">✖</button>
+          </div>
+        </div>
+      </li>
+    } @empty {
+      <li class="empty">No projects yet. Add one above!</li>
+    }
   </ul>
 </section>
