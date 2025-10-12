@@ -1,0 +1,42 @@
+<section class="force-container">
+  <h3>Forces</h3>
+
+  <!-- Add Force Form -->
+  <form (ngSubmit)="addForce(); $event.preventDefault()" class="add-form">
+    <input
+      type="text"
+      placeholder="Force name"
+      name="name"
+      [ngModel]="newForceName()"
+      (ngModelChange)="newForceName.set($event)"
+    />
+    <input
+      type="text"
+      placeholder="Faction"
+      name="faction"
+      [ngModel]="newFaction()"
+      (ngModelChange)="newFaction.set($event)"
+    />
+    <button type="submit" [disabled]="!newForceName()">Add Force</button>
+  </form>
+
+  <!-- Force List -->
+  <ul>
+    @if (forces().length) {
+      @for (f of forces(); track f.id) {
+        <li class="force-card">
+          <div>
+            <h4>{{ f.name }}</h4>
+            @if (f.faction) {
+              <p>Faction: {{ f.faction }}</p>
+            }
+          </div>
+          <button (click)="removeForce(f.id)">✖</button>
+          <app-unit-list [projectId]="projectId" [forceId]="f.id"></app-unit-list>
+        </li>
+      }
+    } @else {
+      <p class="empty">No forces yet. Add one above!</p>
+    }
+  </ul>
+</section>

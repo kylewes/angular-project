@@ -1,0 +1,27 @@
+.unit-section {
+  margin-top: 0.75rem;
+}
+
+.add-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.add-form input {
+  flex: 1;
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: none;
+  background: #121314;
+  color: var(--text);
+}
+
+.unit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.6rem;
+  background: #141618;
+  border-radius: 8px;
+}

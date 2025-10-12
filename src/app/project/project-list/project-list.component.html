@@ -33,9 +33,10 @@
             <button (click)="removeProject(p.id)">✖</button>
           </div>
         </div>
+        <app-force-list [projectId]="p.id"></app-force-list>
       </li>
     } @empty {
-      <li class="empty">No projects yet. Add one above!</li>
+      <p class="empty">No projects yet. Add one above!</p>
     }
   </ul>
 </section>

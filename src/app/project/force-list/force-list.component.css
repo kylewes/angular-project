@@ -1,17 +1,11 @@
-h2 {
-  padding-bottom: 0.5rem;
+.force-container {
+  background: #1e2124;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 255, 200, 0.1);
+  margin-top: 1rem;
 }
 
-.project-container {
-  background: var(--gunmetal); /* from global theme */
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 0 20px rgba(0, 255, 200, 0.1);
-  width: 800px;
-  max-width: 90%;
-}
-
-/* Add form layout */
 .add-form {
   display: flex;
   gap: 1rem;
@@ -23,11 +17,10 @@ h2 {
   padding: 0.6rem;
   border-radius: 8px;
   border: none;
-  background: #1e2124;
+  background: #2a2e31;
   color: var(--text);
 }
 
-/* Add button style */
 .add-form button {
   background: var(--accent);
   color: var(--black);
@@ -39,22 +32,21 @@ h2 {
 }
 
 .add-form button:hover {
-  background: #00bfa5; /* darker teal on hover */
+  background: #00bfa5;
 }
 
-/* Project cards */
-.project-card {
-  background: #1e2124;
-  padding: 1rem;
-  border-radius: 12px;
+.force-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  background: #262a2d;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
   transition: transform 0.2s ease;
 }
 
-.project-card:hover {
+.force-card:hover {
   transform: scale(1.02);
   border: 1px solid var(--accent);
 }

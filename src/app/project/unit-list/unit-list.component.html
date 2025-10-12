@@ -1,0 +1,21 @@
+<div class="unit-section">
+  <form class="add-form" (ngSubmit)="addUnit()">
+    <input
+      type="text"
+      placeholder="Unit name"
+      [ngModel]="newUnitName()"
+      (ngModelChange)="newUnitName.set($event)"
+      name="unitName"
+    />
+    <button type="submit">Add Unit</button>
+  </form>
+
+  <ul>
+    <li *ngFor="let unit of units(); trackBy: trackById">
+      <div class="unit-row">
+        <span>{{ unit.name }}</span>
+        <button (click)="removeUnit(unit.id)">✖</button>
+      </div>
+    </li>
+  </ul>
+</div>
