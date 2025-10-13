@@ -46,4 +46,12 @@ export class ForceListComponent {
   trackById(_: number, item: Force) {
       return item.id;
     }
+
+      isExpanded(projectId: string): boolean {
+    return this.projectService.isProjectExpanded(projectId);
+  }
+
+  toggleProject(projectId: string) {
+    this.projectService.toggleProjectExpanded(projectId);
+  }
 }

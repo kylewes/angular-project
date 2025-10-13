@@ -96,4 +96,29 @@ export class ProjectService {
             } : p ));
   }
 
+  // Replace an existing mini (by id) with the provided mini object
+  updateMini(projectId: string, forceId: string, unitId: string, mini: Mini) {
+    this._projects.update(projects =>
+      projects.map(p =>
+        p.id === projectId
+          ? {
+              ...p,
+              forces: p.forces.map(f =>
+                f.id === forceId
+                  ? {
+                      ...f,
+                      units: f.units.map(u =>
+                        u.id === unitId
+                          ? { ...u, minis: u.minis.map(m => (m.id === mini.id ? mini : m)) }
+                          : u
+                      ),
+                    }
+                  : f
+              ),
+            }
+          : p
+      )
+    );
+  }
+
 }

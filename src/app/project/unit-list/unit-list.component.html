@@ -1,5 +1,7 @@
-<div class="unit-section">
-  <form class="add-form" (ngSubmit)="addUnit()">
+<section class="unit-container">
+  <h4>Units</h4>
+
+  <form (ngSubmit)="addUnit(); $event.preventDefault()" class="add-form">
     <input
       type="text"
       placeholder="Unit name"
@@ -7,15 +9,44 @@
       (ngModelChange)="newUnitName.set($event)"
       name="unitName"
     />
-    <button type="submit">Add Unit</button>
+    <!-- Decided this was too wordy. -->
+    <!-- <input
+      type="text"
+      placeholder="Description"
+      [ngModel]="newUnitDesc()"
+      (ngModelChange)="newUnitDesc.set($event)"
+      name="unitDesc"
+    /> -->
+    <button type="submit" [disabled]="!newUnitName()">Add Unit</button>
   </form>
 
   <ul>
-    <li *ngFor="let unit of units(); trackBy: trackById">
-      <div class="unit-row">
-        <span>{{ unit.name }}</span>
-        <button (click)="removeUnit(unit.id)">✖</button>
-      </div>
-    </li>
+    @for (u of units(); track u.id) {
+      <li class="unit-card">
+        <div class="unit-header">
+          <div class="title">
+            <strong>{{ u.name }}</strong>
+            @if (u.description) {
+              <p>{{ u.description }}</p>
+            }
+          </div>
+          <div class="actions">
+            <button (click)="toggleProject(u.id)">
+              {{ isExpanded(u.id) ? '▲ Collapse' : '▼ Expand' }}
+            </button>
+            <button (click)="removeUnit(u.id)">✖</button>
+          </div>
+        </div>
+
+        <!-- Nested minis -->
+        <div class="nested">
+          <section *ngIf="isExpanded(u.id)" class="mini-section">
+            <app-mini-list [projectId]="projectId" [forceId]="forceId" [unitId]="u.id"></app-mini-list>
+          </section>
+        </div>
+      </li>
+    } @empty {
+      <p class="empty">No units yet. Add one above!</p>
+    }
   </ul>
-</div>
+</section>

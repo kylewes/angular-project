@@ -9,13 +9,15 @@
   [ngModel]="newProjectName()"
   (ngModelChange)="newProjectName.set($event)"
     />
-    <input
+
+    <!-- Decided this was too wordy. -->
+    <!-- <input
       type="text"
       placeholder="Description"
     name="description"
   [ngModel]="newProjectDesc()"
   (ngModelChange)="newProjectDesc.set($event)"
-    />
+    /> -->
     <button type="submit" [disabled]="!newProjectName()">Add Project</button>
   </form>
 
@@ -30,10 +32,18 @@
             }
           </div>
           <div class="actions">
+            <button (click)="toggleProject(p.id)">
+              {{ isExpanded(p.id) ? '▲ Collapse' : '▼ Expand' }}
+            </button>
             <button (click)="removeProject(p.id)">✖</button>
           </div>
         </div>
-        <app-force-list [projectId]="p.id"></app-force-list>
+         <div class="nested">
+           <section *ngIf="isExpanded(p.id)" class="force-section">
+             <!-- Force list component goes here -->
+             <app-force-list [projectId]="p.id"></app-force-list>
+           </section>
+         </div>
       </li>
     } @empty {
       <p class="empty">No projects yet. Add one above!</p>

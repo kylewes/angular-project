@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProjectService } from '../../shared/services/project.service';
 import { Unit } from '../../shared/models/unit';
+import { MiniListComponent } from '../mini-list/mini-list.component';
 
 @Component({
   selector: 'app-unit-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MiniListComponent],
   templateUrl: './unit-list.component.html',
   styleUrls: ['./unit-list.component.css']
 })
@@ -45,5 +46,13 @@ export class UnitListComponent {
 
   trackById(_: number, item: Unit) {
     return item.id;
+  }
+
+    isExpanded(projectId: string): boolean {
+    return this.projectService.isProjectExpanded(projectId);
+  }
+
+  toggleProject(projectId: string) {
+    this.projectService.toggleProjectExpanded(projectId);
   }
 }

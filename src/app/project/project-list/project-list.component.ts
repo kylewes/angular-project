@@ -44,4 +44,13 @@ trackById(_: number, item: Project) {
     return item.id;
   }
 
+  // Template-friendly wrappers so HTML can call these directly
+  isExpanded(projectId: string): boolean {
+    return this.projectService.isProjectExpanded(projectId);
+  }
+
+  toggleProject(projectId: string) {
+    this.projectService.toggleProjectExpanded(projectId);
+  }
+
 }
