@@ -1,0 +1,106 @@
+.force-container {
+  background: #1e2124;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 255, 200, 0.1);
+  margin-top: 1rem;
+}
+
+.add-form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.add-form input {
+  flex: 1;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: none;
+  background: #2a2e31;
+  color: var(--text);
+}
+
+.add-form button {
+  background: var(--accent);
+  color: var(--black);
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.add-form button:hover {
+  background: #00bfa5;
+}
+
+.force-card {
+  display: flex;
+  flex-direction: column; /* stack nested content below header */
+  background: #262a2d;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.force-card:hover {
+  transform: scale(1.02);
+  border: 1px solid var(--accent);
+}
+
+.force-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.force-header .title h4 {
+  margin: 0;
+}
+
+.nested {
+  margin-left: 0; /* nested block appears below header */
+}
+
+/* Header actions */
+.force-header .actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.32rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0,255,200,0.08);
+  background: linear-gradient(135deg, rgba(0,255,200,0.04), transparent);
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.force-header .actions button:hover {
+  background: var(--accent);
+  color: var(--black);
+  transform: translateY(-1px);
+}
+
+.force-header .actions button:last-child {
+  padding: 0.22rem 0.5rem;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #ff7b7b;
+}
+
+.force-header .actions button:last-child:hover {
+  background: rgba(255,123,123,0.12);
+  color: #ffefef;
+}
+
+.empty {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  margin-top: 0.5rem;
+}

@@ -1,0 +1,55 @@
+<section class="force-container">
+  <h3>Forces</h3>
+
+  <!-- Add Force Form -->
+  <form (ngSubmit)="addForce(); $event.preventDefault()" class="add-form">
+    <input
+      type="text"
+      placeholder="Force name"
+      name="name"
+      [ngModel]="newForceName()"
+      (ngModelChange)="newForceName.set($event)"
+    />
+    <!-- Decided this was too wordy. -->
+    <!-- <input
+      type="text"
+      placeholder="Faction"
+      name="faction"
+      [ngModel]="newFaction()"
+      (ngModelChange)="newFaction.set($event)"
+    /> -->
+    <button type="submit" [disabled]="!newForceName()">Add Force</button>
+  </form>
+
+  <!-- Force List -->
+  <ul>
+    @if (forces().length) {
+      @for (f of forces(); track f.id) {
+          <li class="force-card">
+            <div class="force-header">
+              <div class="title">
+                <h4>{{ f.name }}</h4>
+                @if (f.faction) {
+                  <p>Faction: {{ f.faction }}</p>
+                }
+              </div>
+              <div class="actions">
+                <button (click)="toggleProject(f.id)">
+              {{ isExpanded(f.id) ? '▲ Collapse' : '▼ Expand' }}
+                </button>
+                <button (click)="removeForce(f.id)">✖</button>
+              </div>
+            </div>
+
+            <div class="nested">
+              <section *ngIf="isExpanded(f.id)" class="unit-section">
+                  <app-unit-list [projectId]="projectId" [forceId]="f.id"></app-unit-list>
+              </section>
+            </div>
+          </li>
+        }
+    } @else {
+      <p class="empty">No forces yet. Add one above!</p>
+    }
+  </ul>
+</section>

@@ -1,0 +1,96 @@
+.unit-container {
+  background: #1e2124;
+  padding: 1.2rem;
+  border-radius: 12px;
+  margin-top: 1rem;
+  box-shadow: 0 0 12px rgba(0, 255, 200, 0.05);
+}
+
+.add-form {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.add-form input {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  background: #2f3438;
+  color: var(--text);
+}
+
+.add-form button {
+  background: var(--accent);
+  color: var(--black);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.unit-card {
+  background: #2b2f33;
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+}
+
+.unit-card:hover {
+  transform: scale(1.02);
+  border: 1px solid var(--accent);
+}
+
+.unit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.nested {
+  margin-left: 0;
+}
+
+/* Header action button styles */
+.unit-header .actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.58rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0,255,200,0.08);
+  background: linear-gradient(135deg, rgba(0,255,200,0.03), transparent);
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.unit-header .actions button:hover {
+  background: var(--accent);
+  color: var(--black);
+}
+
+.unit-header .actions button:last-child {
+  padding: 0.2rem 0.46rem;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #ff7b7b;
+}
+
+.unit-header .actions button:last-child:hover {
+  background: rgba(255,123,123,0.12);
+  color: #ffefef;
+}
+
+.empty {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  margin-top: 0.5rem;
+}

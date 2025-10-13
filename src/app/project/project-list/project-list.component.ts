@@ -3,11 +3,12 @@ import { ProjectService } from '../../shared/services/project.service';
 import { Project } from '../../shared/models/project';
 import { CommonModule} from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ForceListComponent } from '../force-list/force-list.component';
 
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [ CommonModule, FormsModule, ForceListComponent],
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.css']
 })
@@ -39,9 +40,17 @@ removeProject(id: string) {
   this.projectService.removeProject(id);
 }
 
-  // trackBy function for *ngFor to improve rendering performance
-  trackById(_: number, item: Project) {
+trackById(_: number, item: Project) {
     return item.id;
+  }
+
+  // Template-friendly wrappers so HTML can call these directly
+  isExpanded(projectId: string): boolean {
+    return this.projectService.isProjectExpanded(projectId);
+  }
+
+  toggleProject(projectId: string) {
+    this.projectService.toggleProjectExpanded(projectId);
   }
 
 }
