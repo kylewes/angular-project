@@ -14,14 +14,11 @@ import { UnitListComponent } from '../unit-list/unit-list.component';
 })
 export class ForceListComponent {
   private projectService = inject(ProjectService);
-
-  @Input({ required: true}) projectId!: string;
+  @Input({ required: true }) projectId!: string;
 
   newForceName = signal('');
-  newFaction = signal('');
-
   forces = computed(() => {
-    const project = this.projectService.projects().find((p) => p.id === this.projectId);
+    const project = this.projectService.projects().find(p => p.id === this.projectId);
     return project ? project.forces : [];
   });
 
@@ -32,11 +29,11 @@ export class ForceListComponent {
     this.projectService.addForce(this.projectId, {
       id: crypto.randomUUID(),
       name,
-      faction: this.newFaction(),
+      faction: '',
       units: [],
     });
+
     this.newForceName.set('');
-    this.newFaction.set('');
   }
 
   removeForce(forceId: string) {
@@ -44,14 +41,6 @@ export class ForceListComponent {
   }
 
   trackById(_: number, item: Force) {
-      return item.id;
-    }
-
-      isExpanded(projectId: string): boolean {
-    return this.projectService.isProjectExpanded(projectId);
-  }
-
-  toggleProject(projectId: string) {
-    this.projectService.toggleProjectExpanded(projectId);
+    return item.id;
   }
 }

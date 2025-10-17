@@ -1,42 +1,45 @@
 <section class="mini-container">
-  <h5>Mini</h5>
+  <header class="section-header">
+    <h4>Minis</h4>
+  </header>
+
   <form (ngSubmit)="addMini(); $event.preventDefault()" class="add-form">
     <input
       type="text"
+      placeholder="Mini name"
       [ngModel]="newMiniName()"
       (ngModelChange)="newMiniName.set($event)"
       name="miniName"
-      placeholder="Mini name"
     />
     <input
       type="text"
+      placeholder="Paint scheme"
       [ngModel]="newPaintScheme()"
       (ngModelChange)="newPaintScheme.set($event)"
       name="paintScheme"
-      placeholder="Paint scheme"
     />
     <button type="submit" [disabled]="!newMiniName()">Add Mini</button>
   </form>
 
-  <ul>
-    @if (minis().length) {
-      @for (m of minis(); track m.id) {
-        <li class="mini-card">
-          <div class="mini-info">
-            <h4>{{ m.name }}</h4>
+  <ul class="mini-list">
+    @for (m of minis(); track m.id) {
+      <li class="mini-card">
+        <div class="mini-header">
+          <div>
+            <strong>{{ m.name }}</strong>
             @if (m.paintScheme) {
-              <p>Paint Scheme: {{ m.paintScheme }}</p>
+              <p class="paint">Paint: {{ m.paintScheme }}</p>
             }
           </div>
           <div class="actions">
             <button (click)="toggleCompleted(m.id)">
-              {{ m.completed ? '✅ Done' : 'Mark Done' }}
+              {{ m.completed ? '✅' : '⬜' }}
             </button>
             <button (click)="removeMini(m.id)">✖</button>
           </div>
-        </li>
-      }
-    } @else {
+        </div>
+      </li>
+    } @empty {
       <p class="empty">No minis yet. Add one above!</p>
     }
   </ul>

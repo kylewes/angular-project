@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProjectService } from '../../shared/services/project.service';
 
+
 @Component({
   selector: 'app-mini-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,],
   templateUrl: './mini-list.component.html',
   styleUrls: ['./mini-list.component.css'],
 })
@@ -14,24 +15,47 @@ export class MiniListComponent {
   private projectService = inject(ProjectService);
 
   @Input({ required: true }) projectId!: string;
-  @Input({ required: true }) forceId!: string;
-  @Input({ required: true }) unitId!: string;
+  @Input() forceId?: string;
+  @Input() unitId?: string;
 
   newMiniName = signal('');
   newPaintScheme = signal('');
 
-  minis = computed(() => {
+  private getCurrentForceAndUnit(): { forceId: string; unitId: string } | null {
     const project = this.projectService.projects().find(p => p.id === this.projectId);
-    const force = project?.forces.find(f => f.id === this.forceId);
-    const unit = force?.units.find(u => u.id === this.unitId);
-    return unit ? unit.minis : [];
+    if (!project) return null;
+
+    const force = this.forceId
+      ? project.forces.find(f => f.id === this.forceId)
+      : project.forces[0];
+    if (!force) return null;
+
+    const unit = this.unitId
+      ? force.units.find(u => u.id === this.unitId)
+      : force.units[0];
+    if (!unit) return null;
+
+    return { forceId: force.id, unitId: unit.id };
+  }
+
+  minis = computed(() => {
+    const ids = this.getCurrentForceAndUnit();
+    if (!ids) return [];
+
+    const project = this.projectService.projects().find(p => p.id === this.projectId)!;
+    const force = project.forces.find(f => f.id === ids.forceId)!;
+    const unit = force.units.find(u => u.id === ids.unitId)!;
+    return unit.minis;
   });
 
   addMini() {
+    const ids = this.getCurrentForceAndUnit();
+    if (!ids) return;
+
     const name = this.newMiniName().trim();
     if (!name) return;
 
-    this.projectService.addMini(this.projectId, this.forceId, this.unitId, {
+    this.projectService.addMini(this.projectId, ids.forceId, ids.unitId, {
       id: crypto.randomUUID(),
       name,
       paintScheme: this.newPaintScheme(),
@@ -43,17 +67,20 @@ export class MiniListComponent {
   }
 
   removeMini(miniId: string) {
-    this.projectService.removeMini(this.projectId, this.forceId, this.unitId, miniId);
+    const ids = this.getCurrentForceAndUnit();
+    if (!ids) return;
+    this.projectService.removeMini(this.projectId, ids.forceId, ids.unitId, miniId);
   }
 
   toggleCompleted(miniId: string) {
-    const minis = this.minis();
-    const mini = minis.find(m => m.id === miniId);
-    if (mini) {
-      mini.completed = !mini.completed;
-  // Replace the existing mini entry with the updated one
-  this.projectService.updateMini(this.projectId, this.forceId, this.unitId, mini);
-    }
+    const ids = this.getCurrentForceAndUnit();
+    if (!ids) return;
+
+    const mini = this.minis().find(m => m.id === miniId);
+    if (!mini) return;
+
+    mini.completed = !mini.completed;
+    this.projectService.updateMini(this.projectId, ids.forceId, ids.unitId, mini);
   }
 
   trackById(_: number, item: any) {

@@ -4,20 +4,11 @@
   <form (ngSubmit)="addProject(); $event.preventDefault()" class="add-form">
     <input
       type="text"
-      placeholder="Project name"
-  name="name"
-  [ngModel]="newProjectName()"
-  (ngModelChange)="newProjectName.set($event)"
+      placeholder="New Project"
+      [ngModel]="newProjectName()"
+      (ngModelChange)="newProjectName.set($event)"
+      name="projectName"
     />
-
-    <!-- Decided this was too wordy. -->
-    <!-- <input
-      type="text"
-      placeholder="Description"
-    name="description"
-  [ngModel]="newProjectDesc()"
-  (ngModelChange)="newProjectDesc.set($event)"
-    /> -->
     <button type="submit" [disabled]="!newProjectName()">Add Project</button>
   </form>
 
@@ -25,28 +16,33 @@
     @for (p of projects(); track p.id) {
       <li class="project-card">
         <div class="project-header">
-          <div>
-            <h3>{{ p.name }}</h3>
-            @if (p.description) {
-              <p>{{ p.description }}</p>
+          <h3 (click)="selectProject(p.id)">
+            {{ p.name }}
+            <span class="toggle">
+              {{ selectedProjectId() === p.id ? '▲' : '▼' }}
+            </span>
+          </h3>
+          <button (click)="removeProject(p.id)">✖</button>
+        </div>
+
+        <section *ngIf="selectedProjectId() === p.id" class="project-content">
+          <div class="toolbar">
+            <button [class.active]="activeTab() === 'forces'" (click)="setActiveTab('forces')">Forces</button>
+            <button [class.active]="activeTab() === 'units'" (click)="setActiveTab('units')">Units</button>
+            <button [class.active]="activeTab() === 'minis'" (click)="setActiveTab('minis')">Minis</button>
+          </div>
+
+          <div class="tab-content">
+            @switch (activeTab()) {
+              @case ('forces') { <app-force-list [projectId]="p.id"></app-force-list> }
+              @case ('units') { <app-unit-list [projectId]="p.id"></app-unit-list> }
+              @case ('minis') { <app-mini-list [projectId]="p.id"></app-mini-list> }
             }
           </div>
-          <div class="actions">
-            <button (click)="toggleProject(p.id)">
-              {{ isExpanded(p.id) ? '▲ Collapse' : '▼ Expand' }}
-            </button>
-            <button (click)="removeProject(p.id)">✖</button>
-          </div>
-        </div>
-         <div class="nested">
-           <section *ngIf="isExpanded(p.id)" class="force-section">
-             <!-- Force list component goes here -->
-             <app-force-list [projectId]="p.id"></app-force-list>
-           </section>
-         </div>
+        </section>
       </li>
     } @empty {
-      <p class="empty">No projects yet. Add one above!</p>
+      <p>No projects yet — add one above!</p>
     }
   </ul>
 </section>

@@ -1,95 +1,59 @@
 .mini-container {
-  background: #1e2124;
-  padding: 0.8rem;
-  border-radius: 10px;
-  box-shadow: 0 0 8px rgba(0, 255, 200, 0.08);
+  background: #1a1f22;
+  border: 1px solid #333;
+  border-radius: 1rem;
+  padding: 1rem;
   margin-top: 0.75rem;
+}
+
+.section-header h4 {
+  color: var(--accent);
+  margin-bottom: 0.75rem;
 }
 
 .add-form {
   display: flex;
-  gap: 0.8rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
 .add-form input {
-  flex: 1;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: none;
-  background: #2a2e31;
+  flex: 1 1 45%;
+  background: #0d0d0d;
   color: var(--text);
+  border: 1px solid #3a3f43;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 }
 
 .add-form button {
   background: var(--accent);
   color: var(--black);
   border: none;
-  padding: 0.5rem 0.9rem;
-  border-radius: 8px;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.add-form button:hover {
-  background: #00bfa5;
+  transition: 0.2s ease;
 }
 
 .mini-card {
+  background: #111518;
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.mini-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #262a2d;
-  padding: 0.6rem;
-  border-radius: 8px;
-  margin-bottom: 0.4rem;
-  transition: transform 0.2s ease, border 0.2s ease;
 }
 
-.mini-card:hover {
-  transform: scale(1.02);
-  border: 1px solid var(--accent);
+.paint {
+  color: #aaa;
+  font-size: 0.9rem;
 }
-
-.actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.actions button {
-  background: transparent;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  border-radius: 6px;
-  padding: 0.3rem 0.6rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.actions button:hover {
-  background: var(--accent);
-  color: var(--black);
-}
-
-/* Small toggle appearance for mini actions */
-.mini-card .actions button:first-child {
-  padding: 0.28rem 0.5rem;
-  border-radius: 999px;
-  font-weight: 600;
-}
-
-.mini-card .actions button:last-child {
-  padding: 0.22rem 0.46rem;
-  border-radius: 6px;
-  color: #ff7b7b;
-  border: 1px solid rgba(255,123,123,0.18);
-}
-
-.mini-card .actions button:last-child:hover {
-  background: rgba(255,123,123,0.12);
-  color: #fff;
-}
-
 .empty {
   color: #888;
   font-style: italic;
