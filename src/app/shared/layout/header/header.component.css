@@ -1,0 +1,48 @@
+.app-header {
+  width: 100%;
+  background: var(--gunmetal);
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 2px solid var(--accent);
+  box-shadow: 0 0 12px rgba(0, 255, 200, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.app-header .left h1 {
+  font-size: 1.5rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.app-header .center h3 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.app-header .right {
+  display: flex;
+  gap: 1rem;
+}
+
+.header-btn {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--text);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.header-btn:hover {
+  background: var(--accent);
+  color: var(--black);
+  box-shadow: 0 0 8px rgba(0, 255, 200, 0.4);
+}

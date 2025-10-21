@@ -13,6 +13,7 @@ export class ProjectService {
 
   readonly projects = computed(() => this._projects());
 
+
   // Added expandedProjects so multiple projects can be visible at once. //
   expandedProjectIds = signal<string[]>([]);
 
@@ -41,6 +42,12 @@ export class ProjectService {
 
   addProject(project: Project) {
     this._projects.update(projects => [...projects, project]);
+  }
+  // Added new update Project feature for new dashboard
+  updateProject(updateProject: Project) {
+    this._projects.update(projects =>
+      projects.map(p => (p.id === updateProject.id ? updateProject : p))
+    );
   }
 
   removeProject(projectId: string) {
@@ -119,6 +126,19 @@ export class ProjectService {
           : p
       )
     );
+  }
+// Added get summery method that will allow dashboard to show simple display cards for projects
+getSummary(projectId: string) {
+  const project = this._projects().find(p => p.id === projectId);
+  if (!project) return {forceCount: 0, unitCount: 0, miniCount: 0};
+  const forceCount = project.forces.length;
+    const unitCount = project.forces.reduce((acc, f) => acc + f.units.length, 0);
+    const miniCount = project.forces.reduce(
+      (acc, f) => acc + f.units.reduce((ua, u) => ua + u.minis.length, 0),
+      0
+    );
+
+    return { forceCount, unitCount, miniCount };
   }
 
 }

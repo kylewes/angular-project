@@ -1,0 +1,13 @@
+.app-footer {
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  background: var(--gunmetal);
+  color: var(--text);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  font-size: 0.9rem;
+  /* opacity: 0.8; */
+  border-top: 1px solid rgba(0, 255, 200, 0.2);
+}

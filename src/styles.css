@@ -16,10 +16,24 @@ body {
   background: var(--black);
   color: var(--text);
   font-family: "Inter", sans-serif;
-  min-height: 100vh;
+  height: 100vh; /* full viewport height */
   display: flex;
-  justify-content: center;
-  align-items: start;
-  padding: 2rem;
+  flex-direction: column; /* stack header > main > footer vertically */
 }
 
+.app-container {
+  display: flex;
+  flex: 1; /* take remaining space between header and footer */
+  width: 100%;
+  overflow: hidden;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  overflow-y: auto;
+  padding: 2rem;
+}

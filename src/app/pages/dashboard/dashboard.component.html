@@ -1,0 +1,24 @@
+<div class="dashboard">
+  <h2>Projects</h2>
+<div class="project-grid">
+    @for (project of projects(); track trackById($index, project)) {
+      <div class="project-card">
+        <h3>{{ project.name }}</h3>
+        <p>{{ project.description || 'No description' }}</p>
+
+        <div class="stats">
+          <span>{{ getSummary(project.id).forceCount }}x Forces</span>
+          <span>{{ getSummary(project.id).unitCount }}x Units</span>
+          <span>{{ getSummary(project.id).miniCount }}x Minis</span>
+        </div>
+
+        <div class="actions">
+          <button (click)="editProject(project.id)">Edit</button>
+          <button (click)="removeProject(project.id)">Delete</button>
+        </div>
+      </div>
+    } @empty {
+      <p class="empty">No projects yet. So empty!</p>
+    }
+  </div>
+  </div>
