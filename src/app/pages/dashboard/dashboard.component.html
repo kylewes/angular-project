@@ -13,7 +13,7 @@
         </div>
 
         <div class="actions">
-          <button (click)="editProject(project.id)">Edit</button>
+          <button [routerLink]="['/edit-project', project.id]">Edit</button>
           <button (click)="removeProject(project.id)">Delete</button>
         </div>
       </div>

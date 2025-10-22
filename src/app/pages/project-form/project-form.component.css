@@ -1,0 +1,32 @@
+.project-form {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project-form input,
+.project-form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  margin-bottom: 0.5rem;
+  background: var(--gunmetal);
+  color: var(--text);
+}
+
+button {
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--black);
+  color: var(--accent);
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--accent);
+  color: var(--black);
+}

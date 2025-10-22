@@ -1,0 +1,42 @@
+<section class="project-form">
+  <h2>{{ projectId ? 'Edit Project' : 'Add Project' }}</h2>
+
+  <form (ngSubmit)="saveProject(); $event.preventDefault()">
+    <label>Project Name</label>
+    <input type="text" [(ngModel)]="projectName" name="projectName" required />
+
+    <label>Description</label>
+    <textarea [(ngModel)]="projectDesc" name="projectDesc"></textarea>
+
+    <div class="forces">
+      <h3>Forces</h3>
+      @for (force of forces(); track force.id; let fIndex = $index) {
+        <div class="force-card">
+          <input type="text" [(ngModel)]="force.name" placeholder="Force name" name="force{{fIndex}}" />
+          <button type="button" (click)="removeForce(force.id)">Remove Force</button>
+
+          <div class="units">
+            <h4>Units</h4>
+            @for (unit of force.units; track unit.id; let uIndex = $index) {
+              <div class="unit-card">
+                <input type="text" [(ngModel)]="unit.name" placeholder="Unit name" name="unit{{fIndex}}{{uIndex}}" />
+                <button type="button" (click)="addMini(fIndex, uIndex)">+ Add Mini</button>
+
+                <div class="minis">
+                  @for (mini of unit.minis; track mini.id; let mIndex = $index) {
+                    <input type="text" [(ngModel)]="mini.name" placeholder="Mini name" />
+                  }
+                </div>
+              </div>
+            }
+            <button type="button" (click)="addUnit(fIndex)">+ Add Unit</button>
+          </div>
+        </div>
+      }
+      <button type="button" (click)="addForce()">+ Add Force</button>
+    </div>
+
+    <button type="submit">Save Project</button>
+  </form>
+</section>
+
