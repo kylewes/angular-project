@@ -1,0 +1,10 @@
+<div class="modal-backdrop" (click)="onClose()"></div>
+<div class="modal">
+  <h3>Add Mini</h3>
+  <input type="text" [(ngModel)]="miniName" placeholder="Mini Name" />
+
+  <div class="modal-actions">
+    <button (click)="onSave()">Save</button>
+    <button class="cancel" (click)="onClose()">Cancel</button>
+  </div>
+</div>

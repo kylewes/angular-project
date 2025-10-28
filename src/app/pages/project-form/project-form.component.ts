@@ -7,10 +7,14 @@ import { Mini } from '../../shared/models/mini';
 import { Project } from '../../shared/models/project';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ForceModalComponent } from '../../shared/ui/force-modal/force-modal.component';
+import { UnitModalComponent } from '../../shared/ui/unit-modal/unit-modal.component';
+import { MiniModalComponent } from '../../shared/ui/mini-modal/mini-modal.component';
 
 @Component({
   selector: 'app-project-form',
-  imports: [FormsModule, CommonModule],
+  standalone: true,
+  imports: [FormsModule, CommonModule, ForceModalComponent, UnitModalComponent, MiniModalComponent],
   templateUrl: './project-form.component.html',
   styleUrl: './project-form.component.css'
 })
@@ -21,10 +25,19 @@ export class ProjectFormComponent {
 
   projectId = this.route.snapshot.paramMap.get('id');
 
-  // Signals for form data
+  // --- Signals ---
   projectName = signal('');
   projectDesc = signal('');
   forces = signal<Force[]>([]);
+
+  // --- Modal Control ---
+  showForceModal = signal(false);
+  showUnitModal = signal(false);
+  showMiniModal = signal(false);
+
+  // --- Context for adding Units/Minis ---
+  selectedForceId: string | null = null;
+  selectedUnitId: string | null = null;
 
   constructor() {
     if (this.projectId) {
@@ -37,33 +50,106 @@ export class ProjectFormComponent {
     }
   }
 
-  addForce() {
-    const newForce: Force = { id: crypto.randomUUID(), name: '', units: [] };
-    this.forces.update(f => [...f, newForce]);
+  // ---------- Modal Triggers ----------
+  openForceModal() {
+    this.showForceModal.set(true);
   }
 
+  openUnitModal(forceId: string) {
+    this.selectedForceId = forceId;
+    this.showUnitModal.set(true);
+  }
+
+  openMiniModal(forceId: string, unitId: string) {
+    this.selectedForceId = forceId;
+    this.selectedUnitId = unitId;
+    this.showMiniModal.set(true);
+  }
+
+  // ---------- Modal Close Handlers ----------
+closeForceModal() {
+  this.showForceModal.set(false);
+}
+
+closeUnitModal() {
+  this.showUnitModal.set(false);
+}
+
+closeMiniModal() {
+  this.showMiniModal.set(false);
+}
+
+  // ---------- Modal Callbacks ----------
+  onForceSaved(data: { name: string }) {
+    const newForce: Force = { id: crypto.randomUUID(), name: data.name, units: [] };
+    this.forces.update(f => [...f, newForce]);
+    this.showForceModal.set(false);
+  }
+
+  onUnitSaved(data: { name: string }) {
+    if (!this.selectedForceId) return;
+    this.forces.update(forces =>
+      forces.map(force =>
+        force.id === this.selectedForceId
+          ? { ...force, units: [...force.units, { id: crypto.randomUUID(), name: data.name, minis: [] }] }
+          : force
+      )
+    );
+    this.showUnitModal.set(false);
+  }
+
+  onMiniSaved(data: { name: string }) {
+    if (!this.selectedForceId || !this.selectedUnitId) return;
+    this.forces.update(forces =>
+      forces.map(force =>
+        force.id === this.selectedForceId
+          ? {
+              ...force,
+              units: force.units.map(unit =>
+                unit.id === this.selectedUnitId
+                  ? { ...unit, minis: [...unit.minis, { id: crypto.randomUUID(), name: data.name, completed: false }] }
+                  : unit
+              )
+            }
+          : force
+      )
+    );
+    this.showMiniModal.set(false);
+  }
+
+  // ---------- Remove Handlers ----------
   removeForce(forceId: string) {
     this.forces.update(f => f.filter(force => force.id !== forceId));
   }
 
-  addUnit(forceIndex: number) {
-    const newUnit: Unit = { id: crypto.randomUUID(), name: '', minis: [] };
-    this.forces.update(f => {
-      const copy = [...f];
-      copy[forceIndex].units.push(newUnit);
-      return copy;
-    });
+  removeUnit(forceId: string, unitId: string) {
+    this.forces.update(forces =>
+      forces.map(force =>
+        force.id === forceId
+          ? { ...force, units: force.units.filter(unit => unit.id !== unitId) }
+          : force
+      )
+    );
   }
 
-  addMini(forceIndex: number, unitIndex: number) {
-    const newMini: Mini = { id: crypto.randomUUID(), name: '', completed: false };
-    this.forces.update(f => {
-      const copy = [...f];
-      copy[forceIndex].units[unitIndex].minis.push(newMini);
-      return copy;
-    });
+  removeMini(forceId: string, unitId: string, miniId: string) {
+    this.forces.update(forces =>
+      forces.map(force =>
+        force.id === forceId
+          ? {
+              ...force,
+              units: force.units.map(unit =>
+                unit.id === unitId
+                  ? { ...unit, minis: unit.minis.filter(mini => mini.id !== miniId) }
+                  : unit
+              )
+            }
+          : force
+      )
+    );
   }
 
+  // ---------- Save Project ----------
   saveProject() {
     const project: Project = {
       id: this.projectId || crypto.randomUUID(),
@@ -75,6 +161,7 @@ export class ProjectFormComponent {
     if (this.projectId) {
       this.projectService.removeProject(this.projectId);
     }
+
     this.projectService.addProject(project);
     this.router.navigate(['/dashboard']);
   }

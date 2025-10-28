@@ -2,41 +2,88 @@
   <h2>{{ projectId ? 'Edit Project' : 'Add Project' }}</h2>
 
   <form (ngSubmit)="saveProject(); $event.preventDefault()">
-    <label>Project Name</label>
-    <input type="text" [(ngModel)]="projectName" name="projectName" required />
+    <!-- Project Basics -->
+    <div class="project-info">
+      <label>Project Name</label>
+      <input type="text" [(ngModel)]="projectName" name="projectName" required />
 
-    <label>Description</label>
-    <textarea [(ngModel)]="projectDesc" name="projectDesc"></textarea>
-
-    <div class="forces">
-      <h3>Forces</h3>
-      @for (force of forces(); track force.id; let fIndex = $index) {
-        <div class="force-card">
-          <input type="text" [(ngModel)]="force.name" placeholder="Force name" name="force{{fIndex}}" />
-          <button type="button" (click)="removeForce(force.id)">Remove Force</button>
-
-          <div class="units">
-            <h4>Units</h4>
-            @for (unit of force.units; track unit.id; let uIndex = $index) {
-              <div class="unit-card">
-                <input type="text" [(ngModel)]="unit.name" placeholder="Unit name" name="unit{{fIndex}}{{uIndex}}" />
-                <button type="button" (click)="addMini(fIndex, uIndex)">+ Add Mini</button>
-
-                <div class="minis">
-                  @for (mini of unit.minis; track mini.id; let mIndex = $index) {
-                    <input type="text" [(ngModel)]="mini.name" placeholder="Mini name" />
-                  }
-                </div>
-              </div>
-            }
-            <button type="button" (click)="addUnit(fIndex)">+ Add Unit</button>
-          </div>
-        </div>
-      }
-      <button type="button" (click)="addForce()">+ Add Force</button>
+      <label>Description</label>
+      <textarea [(ngModel)]="projectDesc" name="projectDesc"></textarea>
     </div>
 
-    <button type="submit">Save Project</button>
-  </form>
-</section>
+    <!-- Forces -->
+    <div class="force-section">
+      <div class="section-header">
+        <h3>Forces</h3>
+        <button type="button" class="add-btn" (click)="openForceModal()">+ Add Force</button>
+      </div>
 
+      @for (force of forces(); track force.id) {
+        <div class="force-card">
+          <div class="force-header">
+            <h4>{{ force.name || 'Unnamed Force' }}</h4>
+            <button type="button" class="remove-icon" (click)="removeForce(force.id)">✖</button>
+          </div>
+
+          <!-- Units -->
+          <div class="unit-list">
+            @for (unit of force.units; track unit.id) {
+              <div class="unit-card">
+                <div class="unit-header">
+                  <span>{{ unit.name || 'Unnamed Unit' }}</span>
+                  <button type="button" class="remove-icon" (click)="removeUnit(force.id, unit.id)">✖</button>
+                </div>
+
+                <!-- Minis -->
+                <div class="mini-list">
+                  @for (mini of unit.minis; track mini.id) {
+                    <div class="mini-item">
+                      <span>{{ mini.name || 'Unnamed Mini' }}</span>
+                      <button type="button" class="remove-icon" (click)="removeMini(force.id, unit.id, mini.id)">✖</button>
+                    </div>
+                  }
+                </div>
+
+                <button type="button" class="mini-add" (click)="openMiniModal(force.id, unit.id)">+ Add Mini</button>
+              </div>
+            }
+          </div>
+
+          <button type="button" class="unit-add" (click)="openUnitModal(force.id)">+ Add Unit</button>
+        </div>
+      }
+    </div>
+
+    <button type="submit" class="save-btn">Save Project</button>
+  </form>
+
+  <!-- ===================== -->
+  <!-- Inline Force Modal -->
+  <!-- ===================== -->
+  @if (showForceModal()) {
+    <app-force-modal
+      (save)="onForceSaved($event)"
+      (close)="closeForceModal()">
+    </app-force-modal>
+  }
+
+  <!-- ===================== -->
+  <!-- Inline Unit Modal -->
+  <!-- ===================== -->
+  @if (showUnitModal()) {
+    <app-unit-modal
+      (save)="onUnitSaved($event)"
+      (close)="closeUnitModal()">
+    </app-unit-modal>
+  }
+
+  <!-- ===================== -->
+  <!-- Inline Mini Modal -->
+  <!-- ===================== -->
+  @if (showMiniModal()) {
+    <app-mini-modal
+      (save)="onMiniSaved($event)"
+      (close)="closeMiniModal()">
+    </app-mini-modal>
+  }
+</section>
